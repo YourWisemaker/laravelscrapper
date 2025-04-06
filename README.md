@@ -37,9 +37,11 @@ php artisan key:generate
 ## Configuration
 1. Set scraping credentials in `.env`:
 ```ini
-OF_SCRAPER_USERNAME=your_account
-OF_SCRAPER_PASSWORD=your_password
-OF_MULTILOGIN_LIMIT=5
+DB_HOST=host
+DB_PORT=port
+DB_DATABASE=database
+DB_USERNAME=username
+DB_PASSWORD=password
 ```
 
 2. Configure database (MySQL required):
