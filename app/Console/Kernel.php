@@ -17,11 +17,12 @@ class Kernel extends ConsoleKernel
             ->runInBackground();
             
         // Run FansMetrics scraper daily
-        $schedule->command('scrape:fansmetrics --limit=100')
+        $schedule->command('scrape:fansmetrics --limit='.env('SCRAPE_LIMIT', 100).'')
             ->daily()
             ->withoutOverlapping()
             ->onOneServer()
-            ->runInBackground();
+            ->runInBackground()
+            
     }
 
     protected function commands(): void

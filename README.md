@@ -35,18 +35,22 @@ php artisan key:generate
 ```
 
 ## Configuration
-1. Set scraping credentials in `.env`:
+1. Set scraping credentials and limits in `.env`:
+```ini
+SCRAPE_LIMIT=100 # Default number of profiles per scrape
+```
 ```ini
 DB_HOST=host
 DB_PORT=port
 DB_DATABASE=database
 DB_USERNAME=username
 DB_PASSWORD=password
+SCRAPE_LIMIT=100
 ```
 
 2. Configure database (MySQL required):
 ```bash
-php artisan migrate --seed
+php artisan migrate
 ```
 
 3. Start services:
@@ -56,10 +60,21 @@ php artisan queue:work
 ```
 
 ## Scheduling
+Configure scraping limits either via:
+- Environment variable (SCRAPE_LIMIT in .env)
+- Command parameter (--limit=X)
+
 Job frequencies are configured in `app/Console/Kernel.php`:
 ```php
-$schedule->job(new ScrapeFansMetricsProfiles)->daily();
-$schedule->job(new ScrapeOnlyFansProfile)->every72Hours();
+$schedule->command('onlyfans:scrape-profiles')
+    ->hourly()
+    ->withoutOverlapping()
+    ->onOneServer();
+
+$schedule->command('scrape:fansmetrics --limit=${SCRAPE_LIMIT}')
+    ->daily()
+    ->withoutOverlapping()
+    ->onOneServer();
 ```
 
 ## Search Implementation

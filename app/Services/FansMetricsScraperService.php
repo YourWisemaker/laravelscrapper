@@ -38,7 +38,7 @@ class FansMetricsScraperService
      * @param int $limit Maximum number of profiles to scrape
      * @return array Array of scraped OnlyFansProfile models
      */
-    public function scrapeProfiles(int $limit = 50): array
+    public function scrapeProfiles(int $limit): array
     {
         try {
             Log::info('Starting to scrape profiles from FansMetrics.com');
